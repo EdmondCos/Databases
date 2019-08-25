@@ -6,6 +6,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "student")
+@NamedQueries({
+        @NamedQuery(name = "Student.getByLastName",
+        query = "SELECT s FROM Student s WHERE s.lastName = :numeFamilie")
+})
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_gen")

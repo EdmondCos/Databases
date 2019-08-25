@@ -20,8 +20,8 @@ public class AddressTest {
             transaction = session.beginTransaction();
 
             Address address = new Address();
-            address.setCity("Bucuresti");
-            address.setStreet("Lalelelor nr5");
+            address.setCity("Iasi");
+            address.setStreet("Iuliu Maniu  nr 15");
 
             session.save(address);
             transaction.commit();
@@ -31,4 +31,17 @@ public class AddressTest {
             }
         }
     }
+
+    @Test
+    public void existTest() {
+
+        SessionFactory factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+
+        Address address = session.load(Address.class, 2L);
+        System.out.println(session.contains(address));
+        session.evict(address);
+        System.out.println(session.contains(address));
+    }
+    
 }

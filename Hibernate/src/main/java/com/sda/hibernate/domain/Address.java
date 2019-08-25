@@ -1,9 +1,12 @@
 package com.sda.hibernate.domain;
 
+import com.sda.hibernate.listener.AddressListener;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "address")
+@EntityListeners({AddressListener.class})
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_gen")
