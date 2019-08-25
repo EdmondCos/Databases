@@ -6,36 +6,26 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-import java.util.Date;
+import static org.junit.Assert.*;
 
-public class TeacherTest {
-    //CRUD
-    // Create
+public class AddressTest {
+
     @Test
-    public void createTeacher() {
+    public void createAddress() {
         Transaction transaction = null;
 
-        //Get SessionFactory and Session
         try (SessionFactory factory = HibernateUtil.getSessionFactory();
              Session session = factory.openSession()
         ) {
-            //Pentru insert e nevoie de o tranzactie
             transaction = session.beginTransaction();
 
-            //Creez un profesor
-            Teacher teacher = new Teacher();
-            teacher.setFirstName("Alexandru");
-            teacher.setLastName("Popescu");
-            teacher.setHireDate(new Date());
-            teacher.setSalary(100D);
+            Address address = new Address();
+            address.setCity("Bucuresti");
+            address.setStreet("Lalelelor nr5");
 
-            //Salvez profesorul
-            session.save(teacher);
-
-            //Commit transaction
+            session.save(address);
             transaction.commit();
         } catch (Exception e) {
-            //rollback transaction
             if (transaction != null) {
                 transaction.rollback();
             }

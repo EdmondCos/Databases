@@ -1,15 +1,15 @@
 package com.sda.hibernate.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "teacher")
-public class Teacher {
+@Table(name = "student")
+public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teacher_gen")
-    @SequenceGenerator(name = "teacher_gen", sequenceName = "teacher_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_gen")
+    @SequenceGenerator(name = "student_gen", sequenceName = "student_seq", allocationSize = 1)
     private long id;
 
     @Column(name = "first_name")
@@ -18,17 +18,19 @@ public class Teacher {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "hire_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date hireDate;
+    @Column(name = "birth_date")
+    private LocalDate birthday;
 
-    @Column(name = "salary")
-    private double salary;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    //Valoare mappedBy e numele exact al membrului partenerului de relatie. Ex. Teacherul initiat in clasa Course
-    @OneToMany(mappedBy = "teacher")
+    @ManyToMany
+    @JoinTable(name = "students_courses",
+            joinColumns = {@JoinColumn(name = "student_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")}
+    )
     private Set<Course> courses;
-
 
     public long getId() {
         return id;
@@ -54,20 +56,20 @@ public class Teacher {
         this.lastName = lastName;
     }
 
-    public Date getHireDate() {
-        return hireDate;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setHireDate(Date hireDate) {
-        this.hireDate = hireDate;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
-    public double getSalary() {
-        return salary;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Set<Course> getCourses() {
